@@ -1,0 +1,174 @@
+{
+	"stations": [
+		{
+			"name": "Station1",
+			"isTenureRequired": true,
+			"isTrainingAllowed": false,
+			"skillPICK": true,
+			"skillPACK": false,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": false,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 1,
+			"position": {
+				"top": "245px",
+				"left": "1412px",
+				"width": "120px",
+				"height": "120px"
+			}
+		},
+		{
+			"name": "Station2",
+			"isTenureRequired": true,
+			"isTrainingAllowed": false,
+			"skillPICK": false,
+			"skillPACK": true,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": false,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 2,
+			"position": {
+				"top": "407px",
+				"left": "1573px",
+				"width": "120px",
+				"height": "120px"
+			}
+		},
+		{
+			"name": "Station3",
+			"isTenureRequired": true,
+			"isTrainingAllowed": false,
+			"skillPICK": false,
+			"skillPACK": false,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": true,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 3,
+			"position": {
+				"top": "97px",
+				"left": "1237px",
+				"width": "120px",
+				"height": "120px"
+			}
+		}
+	],
+	"employees": [
+		{
+			"name": "John Doe1",
+			"hasTenure": true,
+			"isTraining": false,
+			"skillPICK": true,
+			"skillPACK": false,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": false,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 4,
+			"position": {
+				"top": "320px",
+				"left": "767px",
+				"width": "120px",
+				"height": "20px"
+			}
+		},
+		{
+			"name": "John Doe2",
+			"hasTenure": false,
+			"isTraining": true,
+			"skillPICK": true,
+			"skillPACK": false,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": false,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 5,
+			"position": {
+				"top": "387px",
+				"left": "684px",
+				"width": "120px",
+				"height": "20px"
+			}
+		},
+		{
+			"name": "John Doe3",
+			"hasTenure": true,
+			"isTraining": false,
+			"skillPICK": false,
+			"skillPACK": true,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": false,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 9,
+			"position": {
+				"top": "266px",
+				"left": "688px",
+				"width": "120px",
+				"height": "20px"
+			}
+		},
+		{
+			"name": "John Doe4",
+			"hasTenure": true,
+			"isTraining": false,
+			"skillPICK": false,
+			"skillPACK": false,
+			"skillIB_PS": false,
+			"skillOB_PS": false,
+			"skillUTR_STOW": false,
+			"skillDISPATCH_STOW": false,
+			"skillBUFF": true,
+			"skillSTAGE": false,
+			"skillINDUCT": false,
+			"skillVNA": false,
+			"skillIB_OB_DOCK": false,
+			"skillAFM": false,
+			"id": 15,
+			"position": {
+				"top": "313px",
+				"left": "602px",
+				"width": "120px",
+				"height": "20px"
+			}
+		}
+	]
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>POC - Roster Board</title>
+	<link rel="stylesheet" href="libs/jquery-ui.min.css" />
+	<style type="text/css">
+		body {
+			background-image: radial-gradient(#1e1e1e 5%, transparent 5%),
+				radial-gradient(#1e1e1e 2%, transparent 2%);
+			background-color: #ccccc1;
+			background-size: 22px 22px;
+		}
+
+		label,
+		input {
+			display: block;
+		}
+
+		input.text {
+			margin-bottom: 12px;
+			width: 95%;
+			padding: .4em;
+		}
+
+		fieldset {
+			padding: 0;
+			border: 0;
+			margin-top: 25px;
+		}
+
+		.ui-dialog .ui-state-error {
+			padding: .3em;
+		}
+
+		.station {
+			width: 120px;
+			height: 120px;
+			background-color: #009b6d;
+			padding: 5px;
+			position: absolute;
+			z-index: 1;
+		}
+
+		.station>p {
+			text-align: center;
+			cursor: move;
+		}
+
+		.employee {
+			width: 120px;
+			height: 20px;
+			background-color: #8cdcfe;
+			position: absolute;
+			z-index: 2;
+		}
+
+		.employee>p {
+			margin: 0;
+			text-align: center;
+			cursor: move;
+		}
+
+		.station-highlight {
+			background-color: #f29766;
+		}
+	</style>
+
+</head>
+
+<body>
+	<button id="create-station">Create Station</button>
+	<button id="create-employee">Create Employee</button>
+	<button id="import-data" class="ui-button ui-corner-all ui-widget" style="float:right;">Import Data</button>
+	<button id="export-data" class="ui-button ui-corner-all ui-widget" style="float:right;">Export Data</button>
+
+	<input type="file" id="fileImport" style="display: none;">
+
+	<script src="libs/jquery-3.7.0.min.js"></script>
+	<script src="libs/jquery-ui-1.13.2.min.js"></script>
+	<script src="libs/main.js"></script>
+	<script src="libs/station.js"></script>
+	<script src="libs/employee.js"></script>
+
+
+	<div id="dialog-station" title="Station">
+		<form id="form-station">
+			<fieldset>
+				<label for="txtStationName">Name</label>
+				<input type="text" name="txtStationName" id="txtStationName" value="Station"
+					class="text ui-widget-content ui-corner-all">
+				<br />
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStationTenure" id="chkStationTenure" value="value"
+						style="display: inline;">
+					Tenure Required
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStationTraining" id="chkStationTraining" value="value"
+						style="display: inline;">
+					Trainees Allowed
+				</label>
+				<br />
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_PICK" id="chkStation_PICK" value="value"
+						style="display: inline;">
+					PICK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_PACK" id="chkStation_PACK" value="value"
+						style="display: inline;">
+					PACK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_IB_PS" id="chkStation_IB_PS" value="value"
+						style="display: inline;">
+					IB PS
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_OB_PS" id="chkStation_OB_PS" value="value"
+						style="display: inline;">
+					OB PS
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_UTR_STOW" id="chkStation_UTR_STOW" value="value"
+						style="display: inline;">
+					UTR STOW
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_DISPATCH_STOW" id="chkStation_DISPATCH_STOW"
+						value="value" style="display: inline;">
+					DISPATCH STOW
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_BUFF" id="chkStation_BUFF" value="value"
+						style="display: inline;">
+					BUFF
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_STAGE" id="chkStation_STAGE" value="value"
+						style="display: inline;">
+					STAGE
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_INDUCT" id="chkStation_INDUCT" value="value"
+						style="display: inline;">
+					INDUCT
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_VNA" id="chkStation_VNA" value="value"
+						style="display: inline;">
+					VNA
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_IB_OB_DOCK" id="chkStation_IB_OB_DOCK" value="value"
+						style="display: inline;">
+					IB/OB DOCK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkStation_AFM" id="chkStation_AFM" value="value"
+						style="display: inline;">
+					AFM
+				</label>
+			</fieldset>
+		</form>
+	</div>
+
+
+
+	<div id="dialog-employee" title="Employee">
+		<form id="form-employee">
+			<fieldset>
+				<label for="txtEmployeeName">Name</label>
+				<input type="text" name="txtEmployeeName" id="txtEmployeeName" value="John Doe"
+					class="text ui-widget-content ui-corner-all">
+				<br />
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployeeTenure" id="chkEmployeeTenure" value="value"
+						style="display: inline;">
+					Has Tenure?
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployeeTraining" id="chkEmployeeTraining" value="value"
+						style="display: inline;">
+					Is Training?
+				</label>
+				<br />
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_PICK" id="chkEmployee_PICK" value="value"
+						style="display: inline;">
+					PICK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_PACK" id="chkEmployee_PACK" value="value"
+						style="display: inline;">
+					PACK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_IB_PS" id="chkEmployee_IB_PS" value="value"
+						style="display: inline;">
+					IB PS
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_OB_PS" id="chkEmployee_OB_PS" value="value"
+						style="display: inline;">
+					OB PS
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_UTR_STOW" id="chkEmployee_UTR_STOW" value="value"
+						style="display: inline;">
+					UTR STOW
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_DISPATCH_STOW" id="chkEmployee_DISPATCH_STOW"
+						value="value" style="display: inline;">
+					DISPATCH STOW
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_BUFF" id="chkEmployee_BUFF" value="value"
+						style="display: inline;">
+					BUFF
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_STAGE" id="chkEmployee_STAGE" value="value"
+						style="display: inline;">
+					STAGE
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_INDUCT" id="chkEmployee_INDUCT" value="value"
+						style="display: inline;">
+					INDUCT
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_VNA" id="chkEmployee_VNA" value="value"
+						style="display: inline;">
+					VNA
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_IB_OB_DOCK" id="chkEmployee_IB_OB_DOCK" value="value"
+						style="display: inline;">
+					IB/OB DOCK
+				</label>
+				<!-- ------- -->
+				<label><input type="checkbox" name="chkEmployee_AFM" id="chkEmployee_AFM" value="value"
+						style="display: inline;">
+					AFM
+				</label>
+			</fieldset>
+		</form>
+	</div>
+
+
+</body>
+
+</html>
