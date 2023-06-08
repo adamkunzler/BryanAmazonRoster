@@ -29,6 +29,10 @@ $(document).ready(function () {
 		});
 	});
 
+	$('#reset-employees').on('click', function () {
+		resetEmployees();
+	});
+
 });
 
 function isNullOrWhiteSpace(input) {
@@ -103,23 +107,37 @@ function importData(data) {
 	$('.employee').remove();
 	$('.station').remove();
 
-	let maxId = -1;
+	let currentId = 1;
 
 	if (data.employees) {
 		data.employees.forEach(x => {
-			employeeLib.createEmployeeFromImport(x)
-
-			if (x.id > maxId) maxId = x.id;
+			x.id = currentId++;
+			employeeLib.createEmployeeFromImport(x);
 		});
 	}
 
 	if (data.stations) {
 		data.stations.forEach(x => {
-			stationLib.createStationFromImport(x)
-
-			if (x.id > maxId) maxId = x.id;
+			x.id = currentId++;
+			stationLib.createStationFromImport(x);
 		});
 	}
 
-	CURRENT_ID = maxId + 1;
+	CURRENT_ID = currentId + 1;
+}
+
+function resetEmployees() {
+	let employees = getAllEmployees();
+
+	let currentX = 100;
+	let currentY = 100;
+
+	employees.forEach(x => {
+		$(x.element).css('top', `${currentY}px`);
+		$(x.element).css('left', `${currentX}px`);
+
+		let height = +(x.data.position.height.slice(0, -2));
+
+		currentY += height + 10;
+	});
 }
