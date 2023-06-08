@@ -129,8 +129,8 @@ function importData(data) {
 function resetEmployees() {
 	let employees = getAllEmployees();
 
-	let currentX = 100;
-	let currentY = 100;
+	let currentX = 25;
+	let currentY = 75;
 
 	employees.forEach(x => {
 		$(x.element).css('top', `${currentY}px`);
