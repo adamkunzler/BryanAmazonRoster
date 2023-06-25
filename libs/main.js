@@ -1,12 +1,10 @@
 let CURRENT_ID = 1;
 
-let employeeLib = undefined;
 let stationLib = undefined;
 
 $(document).ready(function () {
 	console.log('POC - Roster Board Loaded...');
 
-	employeeLib = libEmployee();
 	stationLib = libStation();
 
 	$('#export-data').on('click', function () {
@@ -28,11 +26,6 @@ $(document).ready(function () {
 			reader.readAsText(file);
 		});
 	});
-
-	$('#reset-employees').on('click', function () {
-		resetEmployees();
-	});
-
 });
 
 function isNullOrWhiteSpace(input) {
@@ -50,11 +43,16 @@ function parseDataAttributeJson(val) {
 }
 
 function getAllStations() {
-	return getAllElementsWithJsonDataByClass('station');
-}
+	let stations = getAllElementsWithJsonDataByClass('station');
 
-function getAllEmployees() {
-	return getAllElementsWithJsonDataByClass('employee');
+	// don't export employee names
+	stations.forEach(x => {
+		x.data.employeeName1 = undefined;
+		x.data.employeeUsername1 = undefined;
+		x.data.employeeName2 = undefined;
+		x.data.employeeUsername2 = undefined;
+	});
+	return stations;
 }
 
 function getAllElementsWithJsonDataByClass(cssClass) {
@@ -86,8 +84,7 @@ function getAllElementsWithJsonDataByClass(cssClass) {
 
 function exportData() {
 	let data = {
-		stations: getAllStations().map(x => x.data),
-		employees: getAllEmployees().map(x => x.data)
+		stations: getAllStations().map(x => x.data)
 	};
 
 	let json = JSON.stringify(data);
@@ -104,17 +101,9 @@ function exportData() {
 function importData(data) {
 	if (!data) return;
 
-	$('.employee').remove();
 	$('.station').remove();
 
 	let currentId = 1;
-
-	if (data.employees) {
-		data.employees.forEach(x => {
-			x.id = currentId++;
-			employeeLib.createEmployeeFromImport(x);
-		});
-	}
 
 	if (data.stations) {
 		data.stations.forEach(x => {
@@ -124,20 +113,4 @@ function importData(data) {
 	}
 
 	CURRENT_ID = currentId + 1;
-}
-
-function resetEmployees() {
-	let employees = getAllEmployees();
-
-	let currentX = 25;
-	let currentY = 75;
-
-	employees.forEach(x => {
-		$(x.element).css('top', `${currentY}px`);
-		$(x.element).css('left', `${currentX}px`);
-
-		let height = +(x.data.position.height.slice(0, -2));
-
-		currentY += height + 10;
-	});
 }

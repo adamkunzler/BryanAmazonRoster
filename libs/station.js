@@ -1,22 +1,17 @@
 let libStation = () => {
 
 	let form = $('#form-station');
-	let name = $('#txtStationName');
-	let tenure = $('#chkStationTenure');
-	let training = $('#chkStationTraining');
 
-	let skillPICK = $('#chkStation_PICK');
-	let skillPACK = $('#chkStation_PACK');
-	let skillIB_PS = $('#chkStation_IB_PS');
-	let skillOB_PS = $('#chkStation_OB_PS');
-	let skillUTR_STOW = $('#chkStation_UTR_STOW');
-	let skillDISPATCH_STOW = $('#chkStation_DISPATCH_STOW');
-	let skillBUFF = $('#chkStation_BUFF');
-	let skillSTAGE = $('#chkStation_STAGE');
-	let skillINDUCT = $('#chkStation_INDUCT');
-	let skillVNA = $('#chkStation_VNA');
-	let skillIB_OB_DOCK = $('#chkStation_IB_OB_DOCK');
-	let skillAFM = $('#chkStation_AFM');
+	let name = $('#txtStationName');
+
+	let employeeName1 = $('#txtEmployeeName1');
+	let employeeUsername1 = $('#txtEmployeeUsername1');
+
+	let employeeName2 = $('#txtEmployeeName2');
+	let employeeUsername2 = $('#txtEmployeeUsername2');
+
+	const dialogHeight = 500;
+	const dialogWidth = 600;
 
 	// -------------------------------------------------------------------------------------------------------------
 
@@ -32,12 +27,21 @@ let libStation = () => {
 		}
 
 		let station = getStationData();
+		console.log('station', station);
 		station.id = CURRENT_ID++;
 
 		// create a div element to represent the station and make it draggable
 		let id = `station${station.id}`;
 		let json = toDataAttributeJson(station);
-		var element = $(`<div id="${id}" class="station" data-json="${json}"><p>${station.name}</p></div>`);
+		var element = $(`
+			<div id="${id}" class="station" data-json="${json}">
+				<p class="station-name">${station.name}</p>
+				<p style="margin-top: 5px;">
+					<span class="station-employee employeeName1">${station.employeeName1} (<span class="station-username username1">${station.employeeUsername1}</span>)</span>
+					<br />					
+					<span class="station-employee employeeName2">${station.employeeName2} (<span class="station-username username2">${station.employeeUsername2}</span>)</span>
+				</p>
+			</div>`);
 		element.css('top', '200px');
 		element.css('left', '500px');
 		$('body').append(element);
@@ -45,13 +49,6 @@ let libStation = () => {
 		$('#' + id).resizable();
 
 		$('#' + id).draggable();
-
-		$('#' + id).droppable(
-			{
-				drop: function () {
-					//alert("I am dropped");
-				}
-			});
 
 		$('#' + id).on('dblclick', function () {
 			createEditDialog('#' + id);
@@ -71,7 +68,13 @@ let libStation = () => {
 		$(elementId).attr('data-json', json);
 
 		// update name
-		$(elementId + '>p').text(station.name);
+		$(elementId + ' .station-name').text(station.name);
+
+		let employee1 = `<span class="station-employee employeeName1">${station.employeeName1} (<span class="station-username username1">${station.employeeUsername1}</span>)</span>`;
+		$(elementId + ' .employeeName1').html(employee1);
+
+		let employee2 = `<span class="station-employee employeeName2">${station.employeeName2} (<span class="station-username username2">${station.employeeUsername2}</span>)</span>`;
+		$(elementId + ' .employeeName2').html(employee2);
 
 		dialog.dialog('close');
 	}
@@ -86,21 +89,11 @@ let libStation = () => {
 		// map the data
 		name.val(data.name);
 
-		tenure.prop('checked', data.isTenureRequired);
-		training.prop('checked', data.isTrainingAllowed);
+		employeeName1.val(data.employeeName1);
+		employeeUsername1.val(data.employeeUsername1);
 
-		skillPICK.prop('checked', data.skillPICK);
-		skillPACK.prop('checked', data.skillPACK);
-		skillIB_PS.prop('checked', data.skillIB_PS);
-		skillOB_PS.prop('checked', data.skillOB_PS);
-		skillUTR_STOW.prop('checked', data.skillUTR_STOW);
-		skillDISPATCH_STOW.prop('checked', data.skillDISPATCH_STOW);
-		skillBUFF.prop('checked', data.skillBUFF);
-		skillSTAGE.prop('checked', data.skillSTAGE);
-		skillINDUCT.prop('checked', data.skillINDUCT);
-		skillVNA.prop('checked', data.skillVNA);
-		skillIB_OB_DOCK.prop('checked', data.skillIB_OB_DOCK);
-		skillAFM.prop('checked', data.skillAFM);
+		employeeName2.val(data.employeeName2);
+		employeeUsername2.val(data.employeeUsername2);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------
@@ -108,21 +101,12 @@ let libStation = () => {
 	function getStationData() {
 		let station = {
 			name: name.val(),
-			isTenureRequired: tenure.is(':checked'),
-			isTrainingAllowed: training.is(':checked'),
 
-			skillPICK: skillPICK.is(':checked'),
-			skillPACK: skillPACK.is(':checked'),
-			skillIB_PS: skillIB_PS.is(':checked'),
-			skillOB_PS: skillOB_PS.is(':checked'),
-			skillUTR_STOW: skillUTR_STOW.is(':checked'),
-			skillDISPATCH_STOW: skillDISPATCH_STOW.is(':checked'),
-			skillBUFF: skillBUFF.is(':checked'),
-			skillSTAGE: skillSTAGE.is(':checked'),
-			skillINDUCT: skillINDUCT.is(':checked'),
-			skillVNA: skillVNA.is(':checked'),
-			skillIB_OB_DOCK: skillIB_OB_DOCK.is(':checked'),
-			skillAFM: skillAFM.is(':checked')
+			employeeName1: employeeName1.val(),
+			employeeUsername1: employeeUsername1.val(),
+
+			employeeName2: employeeName2.val(),
+			employeeUsername2: employeeUsername2.val()
 		};
 
 		return station;
@@ -141,8 +125,8 @@ let libStation = () => {
 	function createCreateDialog() {
 		dialog = $('#dialog-station').dialog({
 			autoOpen: false,
-			height: 600,
-			width: 350,
+			height: dialogHeight,
+			width: dialogWidth,
 			modal: true,
 			buttons: {
 				'Create Station': createStation,
@@ -159,8 +143,8 @@ let libStation = () => {
 	function createEditDialog(stationElementId) {
 		dialog = $('#dialog-station').dialog({
 			autoOpen: false,
-			height: 600,
-			width: 350,
+			height: dialogHeight,
+			width: dialogWidth,
 			modal: true,
 			buttons: {
 				'Save': () => { editStation(stationElementId) },
@@ -197,13 +181,6 @@ let libStation = () => {
 			$('#' + id).resizable();
 
 			$('#' + id).draggable();
-
-			$('#' + id).droppable(
-				{
-					drop: function () {
-						//alert("I am dropped");
-					}
-				});
 
 			$('#' + id).on('dblclick', function () {
 				createEditDialog('#' + id);
