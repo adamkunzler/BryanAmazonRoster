@@ -75,6 +75,14 @@
 		.station-username {
 			font-style: italic;
 		}
+
+		.station-username:not(:empty)::before {
+			content: '(';
+		}
+
+		.station-username:not(:empty)::after {
+			content: ')';
+		}
 	</style>
 
 </head>

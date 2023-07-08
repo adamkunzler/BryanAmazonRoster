@@ -61,6 +61,9 @@ let libStation = () => {
 
 	// -------------------------------------------------------------------------------------------------------------
 
+	//
+	// called when modal is saved
+	//
 	function editStation(elementId) {
 		// refresh json data
 		let station = getStationData();
@@ -70,10 +73,10 @@ let libStation = () => {
 		// update name
 		$(elementId + ' .station-name').text(station.name);
 
-		let employee1 = `<span class="station-employee employeeName1">${station.employeeName1} (<span class="station-username username1">${station.employeeUsername1}</span>)</span>`;
+		let employee1 = `<span class="station-employee employeeName1">${station.employeeName1} <span class="station-username username1">${station.employeeUsername1}</span></span>`;
 		$(elementId + ' .employeeName1').html(employee1);
 
-		let employee2 = `<span class="station-employee employeeName2">${station.employeeName2} (<span class="station-username username2">${station.employeeUsername2}</span>)</span>`;
+		let employee2 = `<span class="station-employee employeeName2">${station.employeeName2} <span class="station-username username2">${station.employeeUsername2}</span></span>`;
 		$(elementId + ' .employeeName2').html(employee2);
 
 		dialog.dialog('close');
@@ -81,6 +84,9 @@ let libStation = () => {
 
 	// -------------------------------------------------------------------------------------------------------------
 
+	//
+	// called when modal is opened for edit
+	//
 	function mapStationToDialog(elementId) {
 		// get the data
 		let json = $(elementId).attr('data-json');
@@ -136,6 +142,14 @@ let libStation = () => {
 			},
 			close: function () {
 				form[0].reset();
+			},
+			open: function () {
+				$(this).keydown(function (event) {
+					if (event.keyCode === 13) { // Enter key
+						$(this).parent().find(".ui-dialog-buttonpane button:eq(0)").trigger("click");
+						return false; // Prevent default Enter key behavior
+					}
+				});
 			}
 		});
 	}
@@ -154,6 +168,14 @@ let libStation = () => {
 			},
 			close: function () {
 				form[0].reset();
+			},
+			open: function () {
+				$(this).keydown(function (event) {
+					if (event.keyCode === 13) { // Enter key
+						$(this).parent().find(".ui-dialog-buttonpane button:eq(0)").trigger("click");
+						return false; // Prevent default Enter key behavior
+					}
+				});
 			}
 		});
 	}
@@ -167,7 +189,16 @@ let libStation = () => {
 			// create a div element to represent the station and make it draggable
 			let id = `station${station.id}`;
 			let json = toDataAttributeJson(station);
-			var element = $(`<div id="${id}" class="station" data-json="${json}"><p>${station.name}</p></div>`);
+
+			var element = $(`
+			<div id="${id}" class="station" data-json="${json}">
+				<p class="station-name">${station.name}</p>
+				<p style="margin-top: 5px;">
+					<span class="station-employee employeeName1"><span class="station-username username1"></span></span>
+					<br />					
+					<span class="station-employee employeeName2"><span class="station-username username2"></span></span>
+				</p>
+			</div>`);
 
 			if (station.position) {
 				if (station.position.top) element.css('top', station.position.top);
